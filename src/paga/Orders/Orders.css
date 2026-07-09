@@ -1,0 +1,171 @@
+.orders_page{
+    padding: 50px 0;
+    min-height: 100vh;
+}
+
+.orders_page h1{
+    margin-bottom: 30px;
+    padding-top: 20px;
+    color: red;
+}
+
+.orders_grid{
+    display: grid;
+    grid-template-columns: repeat(3 , 1fr);
+    gap: 20px;
+}
+
+.order_card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    
+   
+    display: flex;
+    flex-direction: column;
+}
+
+.top_order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-bottom: 15px;
+}
+
+
+.action_zone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order_card h2{
+    color: #0090f0;
+    margin-top: 15px;
+}
+.delete_order{
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.delete_order svg{
+    color: red;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.delete_order:hover svg{
+    transform: scale(1.2);
+}
+
+.orders_link{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.orders_link span{
+    position: absolute;
+    bottom: -35px;
+
+    background: #222;
+    color: #fff;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    font-size: 12px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.3s;
+}
+
+.orders_link:hover span{
+    opacity: 1;
+    visibility: visible;
+}
+.orders_link svg{
+    font-size: 22px;
+    fill: var(--white_color);
+}
+.order_date {
+    color: #a0aec0;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.order_items_count {
+    color: #718096;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+
+
+.status_badge {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  margin-right: 10px;
+  display: inline-block;
+}
+.status_badge.pending { color: #3182ce; background-color: #ebf8ff; }
+.status_badge.confirmed { color: #38a169; background-color: #f0fff4; }
+.status_badge.cancelled { color: #e53e3e; background-color: #fff5f5; }
+
+
+.order_footer {
+  margin-top: auto;
+  display: flex;
+  padding-top: 15px;
+}
+
+.payment_badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+
+.payment_badge.pending, 
+.payment_badge.payment_pending {
+  background-color: #fef3c7;
+  color: #ec8815;
+}
+
+
+.payment_badge.succeeded, 
+.payment_badge.payment_succeeded,
+.payment_badge.paid,
+.payment_badge.payment_paid,
+.payment_badge.success,
+.payment_badge.payment_success {
+  background-color: #bcf3d7 !important;
+  color: #059669 !important;
+  font-weight: 600;
+}
+
+
+.payment_badge.cancelled,
+.status_badge.cancelled {
+    background-color: #f8d7da !important;
+    color: red !important;
+    border: 1px solid #f5c6cb;
+}
+
+@media(max-width:768px){
+
+    .orders_grid{
+        grid-template-columns: 1fr;
+    }
+
+}

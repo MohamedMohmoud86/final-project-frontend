@@ -1,0 +1,50 @@
+
+.accessories_hero {
+  background: linear-gradient(45deg, #253237, #0090f0);
+  color: #fff;
+  text-align: center;
+  padding: 80px;
+}
+
+/* PRODUCTS GRID */
+.accessories_products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 100px 0;
+}
+
+/* ================= TABLET ================= */
+@media (max-width: 992px) {
+
+  .accessories_hero{
+    padding: 60px 20px;
+  }
+
+  .accessories_products {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 60px 20px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+
+  .accessories_hero{
+    padding: 40px 15px;
+  }
+
+  .accessories_hero h1{
+    font-size: 22px;
+  }
+
+  .accessories_hero p{
+    font-size: 14px;
+  }
+
+  .accessories_products {
+   grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+    padding: 40px 10px;
+  }
+}

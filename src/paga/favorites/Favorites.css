@@ -1,0 +1,38 @@
+.top_slide{
+     padding: 60px 0;
+    font-size: 18px;
+}
+
+.top_slide h2{
+  padding: 20px;
+}
+
+.myFav{
+   
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+  padding: 50px 0;
+
+}
+
+@media (max-width: 1024px) {
+  .myFav {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .myFav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .myFav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+     padding: 20px 10px;
+  }
+}
+
