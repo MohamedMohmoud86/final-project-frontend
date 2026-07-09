@@ -312,7 +312,13 @@ app.post(
             LOGIN API 
 ========================= */
 app.post(
-  "/api/login", 
+  "/api/login",
+  cors({ 
+    origin: "https://final-project-frontend-amber.vercel.app",
+    credentials: true,
+    methods: ["POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }),
   [
     body("email").trim().normalizeEmail().isEmail().withMessage("Please enter a valid email address"),
     body("password").notEmpty().withMessage("Password field cannot be empty")
@@ -328,22 +334,16 @@ app.post(
       const user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(404).json({
-          message: "User not found"
-        });
+        return res.status(404).json({ message: "User not found" });
       }
 
       if (!user.isVerified) {
-        return res.status(400).json({
-          message: "Please verify your account first"
-        });
+        return res.status(400).json({ message: "Please verify your account first" });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({
-          message: "Invalid credentials"
-        });
+        return res.status(400).json({ message: "Invalid credentials" });
       }
 
       const token = jwt.sign(
@@ -362,7 +362,7 @@ app.post(
         console.error(" Failed to create login notification:", notifErr.message);
       }
 
-      res.json({
+      return res.json({
         message: "Login successful",
         token,
         user: {
@@ -373,7 +373,8 @@ app.post(
       });
 
     } catch (err) {
-      res.status(500).json(err);
+      console.error(" LOGIN CRASH ERROR:", err.message); 
+      return res.status(500).json({ message: "Internal Server Error", error: err.message });  
     }
   }
 );
