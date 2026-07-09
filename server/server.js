@@ -18,7 +18,7 @@ const app = express();
 const sendOTPEmail = require("./utils/mailer");
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://final-project-production-3b18.up.railway.app"],
+  origin: ["https://final-project-frontend-amber.vercel.app", "https://final-project-production-3b18.up.railway.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
