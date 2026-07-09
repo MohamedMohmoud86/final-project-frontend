@@ -17,18 +17,24 @@ const { body, validationResult } = require("express-validator");
 const app = express();
 const sendOTPEmail = require("./utils/mailer");
 
+
 app.use(cors({
-  origin: ["https://final-project-frontend-amber.vercel.app", "https://final-project-production-3b18.up.railway.app"],
+  origin: "https://final-project-frontend-amber.vercel.app", 
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+
+
+
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: { policy: "unsafe-none" } 
 }));
 
 app.use(express.json()); 
+
 
 const cleanNoSQLInjection = (obj) => {
   if (obj && typeof obj === 'object') {
