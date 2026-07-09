@@ -62,38 +62,38 @@ export default function Login() {
       );
     }
   };
-
-  // =========================
-  // GOOGLE LOGIN
+// =========================
+  // GOOGLE LOGIN 
   // =========================
   const googleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const firebaseUser = result.user;
 
-      const userFormatted = {
-        id: firebaseUser.uid,              
-        name: firebaseUser.displayName,         
+      
+      const res = await API.post("/google-login", {
+        name: firebaseUser.displayName,
         email: firebaseUser.email,
-        photoURL: firebaseUser.photoURL         
-      };
+        uid: firebaseUser.uid
+      });
 
-      localStorage.setItem("user", JSON.stringify(userFormatted));
+      
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       
       localStorage.setItem("auth", JSON.stringify({
-        user: userFormatted,
+        user: res.data.user,
         type: "google"
       }));
 
-      const token = await firebaseUser.getIdToken();
-      localStorage.setItem("token", token);
-
       toast.success("Google Login Success");
       
-      window.location.href = "/"; 
+      
+      navigate("/");
 
     } catch (err) {
-      toast.error(err.message);
+      console.error(err);
+      toast.error(err.response?.data?.message || "Google Login Failed");
     }
   };
 
