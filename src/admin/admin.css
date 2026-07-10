@@ -410,3 +410,80 @@
   border: 1px solid #f1f5f9;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
+
+
+@media (max-width: 768px) {
+  
+
+  .admin_dashboard_wrapper {
+    flex-direction: column; 
+    position: relative;    
+    height: auto;
+    min-height: 100vh;
+  }
+
+ 
+  .admin_sidebar {
+    width: 100%;          
+    height: auto;         
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid #141414;
+  }
+
+  .sidebar_logo {
+    padding: 0 0 15px 0;
+    text-align: center;   
+  }
+
+  
+  .sidebar_menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 0 0 0;
+  }
+
+  .sidebar_menu li {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+  
+  .sidebar_menu li.active {
+    border-left: none;
+    border-bottom: 3px solid #0090f0; 
+  }
+
+ 
+  .admin_main_content {
+    padding: 20px;       
+    height: auto;        
+    overflow-y: visible; 
+  }
+
+  .admin_header_title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  
+  .form_group_row {
+    flex-direction: column; 
+    gap: 15px;
+  }
+
+  
+  .admin_table_container {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .admin_table th, 
+  .admin_table td {
+    padding: 12px 10px; 
+    font-size: 13px;
+  }
+}
