@@ -11,7 +11,7 @@ export default function AdminContact() {
   const fetchMessages = async () => {
     try {
       
-      const savedUser = localStorage.getItem("user");
+      const savedUser = sessionStorage.getItem("user");
       let token = "";
 
       if (savedUser) {
@@ -35,7 +35,7 @@ export default function AdminContact() {
   const handleDeleteMessage = async (id) => {
     try {
      
-      const savedUser = localStorage.getItem("user");
+      const savedUser = sessionStorage.getItem("user");
       let token = "";
 
       if (savedUser) {

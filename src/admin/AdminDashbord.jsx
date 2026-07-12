@@ -15,7 +15,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     
-    const savedUser = localStorage.getItem("user"); 
+    const savedUser = sessionStorage.getItem("user"); 
     
     if (savedUser) {
       const parsedUser = JSON.parse(savedUser);
