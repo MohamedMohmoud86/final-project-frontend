@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import AdminOverview from "./AdminOverview";
 import AdminProducts from "./AdminProducts";
 import AdminOrders from "./AdminOrders";
@@ -8,14 +9,39 @@ import "./admin.css";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
+  const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    
+    const savedUser = localStorage.getItem("user"); 
+    
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      
+      
+      if (parsedUser.role === "admin" || parsedUser.email === "novastore156@gmail.com") {
+        setIsAdmin(true);
+      } else {
+        navigate("/"); 
+      }
+    } else {
+      navigate("/login"); 
+    }
+    setLoading(false);
+  }, [navigate]);
+
+ 
+  if (loading) return <div className="admin_loading">Loading Admin Panel...</div>;
+  if (!isAdmin) return null;
 
   return (
     <div className="admin_dashboard_wrapper">
-    
       <div className="admin_sidebar">
         <div className="sidebar_logo">
           <h2>Admin Panel</h2>
-          <p>Mohamed Mahmoud</p>
+          <p>Mohamed Mahmoud</p> 
         </div>
         <ul className="sidebar_menu">
           <li 
@@ -42,7 +68,6 @@ export default function AdminDashboard() {
           >
             👥 Users
           </li>
-          
           <li 
             className={activeTab === "contact" ? "active" : ""} 
             onClick={() => setActiveTab("contact")}
@@ -64,7 +89,6 @@ export default function AdminDashboard() {
         {activeTab === "orders" && <AdminOrders />}
         {activeTab === "users" && <AdminUsers />}
         {activeTab === "contact" && <AdminContact />}
-        
       </div>
     </div>
   );
