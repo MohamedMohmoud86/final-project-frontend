@@ -6,114 +6,105 @@ export default function CartProvider({ children }) {
 
   
   const getUserId = () => {
-    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const currentUser = JSON.parse(sessionStorage.getItem("user") || "{}");
     return currentUser.id || currentUser._id || "guest"; 
   };
 
   const [currentUserId, setCurrentUserId] = useState(getUserId());
 
- 
+
   useEffect(() => {
-    const activeId = getUserId();
-    
-    
-    const savedOrders = localStorage.getItem(`orders_${activeId}`);
-    setOrders(savedOrders ? JSON.parse(savedOrders) : []);
+    setCurrentUserId(getUserId());
+  }, []);
 
-    const savedFav = localStorage.getItem(`favorites_${activeId}`);
-    setFavorites(savedFav ? JSON.parse(savedFav) : []);
-
-    const savedCart = localStorage.getItem(`cartItems_${activeId}`);
-    setCartItems(savedCart ? JSON.parse(savedCart) : []);
-
-  }, []); 
-
-  
-
-
-
+  // 📦 1. الـ Orders State
   const [orders, setOrders] = useState(() => {
-    const savedOrders = localStorage.getItem(`orders_${getUserId()}`);
+    const savedOrders = sessionStorage.getItem(`orders_${getUserId()}`);
     return savedOrders ? JSON.parse(savedOrders) : [];
   });
 
   const removeOrder = (id) => {
     const updatedOrders = orders.filter(order => order.id !== id);
     setOrders(updatedOrders);
-    localStorage.setItem(`orders_${currentUserId}`, JSON.stringify(updatedOrders));
+    sessionStorage.setItem(`orders_${currentUserId}`, JSON.stringify(updatedOrders));
   };
 
-
- 
+  // ❤️ 2. الـ Favorites State
   const [Favorites, setFavorites] = useState(() => {
-    const savedFav = localStorage.getItem(`favorites_${getUserId()}`);
+    const savedFav = sessionStorage.getItem(`favorites_${getUserId()}`);
     return savedFav ? JSON.parse(savedFav) : [];
   });
 
   const addToFavorites = (item) => {
     setFavorites((prev) => {
       if (prev.some((i) => i.id === item.id)) return prev;
-      return [...prev, item];
+      const updated = [...prev, item];
+      sessionStorage.setItem(`favorites_${currentUserId}`, JSON.stringify(updated));
+      return updated;
     });
   };
 
   const removeFromFavorites = (id) => {
-    setFavorites((prev) => prev.filter((i) => i.id !== id));
+    setFavorites((prev) => {
+      const updated = prev.filter((i) => i.id !== id);
+      sessionStorage.setItem(`favorites_${currentUserId}`, JSON.stringify(updated));
+      return updated;
+    });
   };
 
-  useEffect(() => {
-    localStorage.setItem(`favorites_${currentUserId}`, JSON.stringify(Favorites));
-  }, [Favorites, currentUserId]);
-
-
- 
+  // 🛒 3. الـ Cart Items State
   const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem(`cartItems_${getUserId()}`);
+    const savedCart = sessionStorage.getItem(`cartItems_${getUserId()}`);
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   const clearCart = () => {
     setCartItems([]); 
-    localStorage.removeItem(`cartItems_${currentUserId}`); 
+    sessionStorage.removeItem(`cartItems_${currentUserId}`); 
   };
 
   const increaseQuantity = (id) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+    setCartItems(prevItems => {
+      const updated = prevItems.map(item =>
         (item._id || item.id) === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+      );
+      sessionStorage.setItem(`cartItems_${currentUserId}`, JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const decreaseQuantity = (id) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+    setCartItems(prevItems => {
+      const updated = prevItems.map(item =>
         (item._id || item.id) === id 
           ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 } 
           : item
-      )
-    );
+      );
+      sessionStorage.setItem(`cartItems_${currentUserId}`, JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const removeFromCart = (id) => {
-    setCartItems(prevItems => 
-      prevItems.filter(item => (item._id || item.id) !== id)
-    );
+    setCartItems(prevItems => {
+      const updated = prevItems.filter(item => (item._id || item.id) !== id);
+      sessionStorage.setItem(`cartItems_${currentUserId}`, JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const addToCart = (item) => {
     setCartItems((prevItems) => {
+      let updated;
       if (prevItems.some(i => i.id === item.id)) {
-        return prevItems.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+        updated = prevItems.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+      } else {
+        updated = [...prevItems, { ...item, quantity: 1 }];
       }
-      return [...prevItems, { ...item, quantity: 1 }];
+      sessionStorage.setItem(`cartItems_${currentUserId}`, JSON.stringify(updated));
+      return updated;
     });
   };
-
-  useEffect(() => {
-    localStorage.setItem(`cartItems_${currentUserId}`, JSON.stringify(cartItems));
-  }, [cartItems, currentUserId]);
-
 
   return (
     <CartContext.Provider value={{ 
