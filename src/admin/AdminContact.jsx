@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react"; 
 import axios from "axios";
 import toast from "react-hot-toast";
-import { FaTrashAlt, FaEnvelope } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 
 export default function AdminContact() {
   const [messages, setMessages] = useState([]);
 
- 
- 
+  
   const fetchMessages = async () => {
     try {
       
-      const savedUser = localStorage.getItem("user");
-      let token = "";
-
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser);
-        token = parsedUser.token; 
-      }
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
 
       const res = await axios.get("https://final-project-production-3b18.up.railway.app/api/admin/contact", {
         headers: {
@@ -32,16 +25,15 @@ export default function AdminContact() {
   };
 
   
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+ 
   const handleDeleteMessage = async (id) => {
     try {
-     
-      const savedUser = localStorage.getItem("user");
-      let token = "";
-
-      if (savedUser) {
-        const parsedUser = JSON.parse(savedUser);
-        token = parsedUser.token;
-      }
+      
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
       
       const res = await fetch(`https://final-project-production-3b18.up.railway.app/api/admin/contact/${id}`, {
         method: "DELETE",
