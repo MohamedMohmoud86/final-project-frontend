@@ -49,8 +49,10 @@ export default function Login() {
       });
 
     
-  sessionStorage.setItem("token", res.data.token);
-sessionStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("token", res.data.token);
+
+    
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       toast.success("Login Success");
       navigate("/");
@@ -76,9 +78,10 @@ sessionStorage.setItem("user", JSON.stringify(res.data.user));
       });
 
       
-     sessionStorage.setItem("token", res.data.token);
-sessionStorage.setItem("user", JSON.stringify(res.data.user));
-sessionStorage.setItem("auth", JSON.stringify({
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      localStorage.setItem("auth", JSON.stringify({
         user: res.data.user,
         type: "google"
       }));
