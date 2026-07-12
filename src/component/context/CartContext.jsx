@@ -4,7 +4,7 @@ export const CartContext = createContext()
 
 export default function CartProvider({ children }) {
 
-
+  
   const getUserId = () => {
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     return currentUser.id || currentUser._id || "guest"; 
@@ -14,32 +14,21 @@ export default function CartProvider({ children }) {
 
  
   useEffect(() => {
-    const checkUserChange = () => {
-      const activeId = getUserId();
-      if (activeId !== currentUserId) {
-        setCurrentUserId(activeId);
-        
-      
-        const savedOrders = localStorage.getItem(`orders_${activeId}`);
-        setOrders(savedOrders ? JSON.parse(savedOrders) : []);
+    const activeId = getUserId();
+    
+    
+    const savedOrders = localStorage.getItem(`orders_${activeId}`);
+    setOrders(savedOrders ? JSON.parse(savedOrders) : []);
 
-        const savedFav = localStorage.getItem(`favorites_${activeId}`);
-        setFavorites(savedFav ? JSON.parse(savedFav) : []);
+    const savedFav = localStorage.getItem(`favorites_${activeId}`);
+    setFavorites(savedFav ? JSON.parse(savedFav) : []);
 
-        const savedCart = localStorage.getItem(`cartItems_${activeId}`);
-        setCartItems(savedCart ? JSON.parse(savedCart) : []);
-      }
-    };
+    const savedCart = localStorage.getItem(`cartItems_${activeId}`);
+    setCartItems(savedCart ? JSON.parse(savedCart) : []);
 
-   
-    const interval = setInterval(checkUserChange, 1000);
-    window.addEventListener('storage', checkUserChange);
+  }, []); 
 
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('storage', checkUserChange);
-    };
-  }, [currentUserId]);
+  
 
 
 
