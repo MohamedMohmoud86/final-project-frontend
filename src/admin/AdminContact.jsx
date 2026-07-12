@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaTrashAlt, FaEnvelope } from "react-icons/fa";
@@ -6,25 +6,38 @@ import { FaTrashAlt, FaEnvelope } from "react-icons/fa";
 export default function AdminContact() {
   const [messages, setMessages] = useState([]);
 
-
+ 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get("https://final-project-production-3b18.up.railway.app/api/admin/contact");
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get("https://final-project-production-3b18.up.railway.app/api/admin/contact", {
+        headers: {
+          Authorization: `Bearer ${token}` 
+        }
+      });
       setMessages(res.data);
     } catch (err) {
       console.error("Failed to fetch messages", err);
+      toast.error("Failed to load messages");
     }
   };
 
+
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, []); 
 
-
+  
   const handleDeleteMessage = async (id) => {
     try {
+      const token = localStorage.getItem("token");
+      
       const res = await fetch(`https://final-project-production-3b18.up.railway.app/api/admin/contact/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
 
       if (res.ok) {
@@ -73,7 +86,7 @@ export default function AdminContact() {
                       <button 
                         onClick={() => handleDeleteMessage(msg._id)} 
                         className="delete_action_btn"
-                        style={{ background: "#dc3545", padding: "6px 10px" }}
+                        style={{ background: "#dc3545", padding: "6px 10px", border: "none", borderRadius: "4px", color: "white", cursor: "pointer" }}
                       >
                         <FaTrashAlt />
                       </button>
